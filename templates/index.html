@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Input and Display</title>
+</head>
+<body>
+    <h1>Text Input and Display</h1>
+    
+    <label for="input_text">Enter Text:</label>
+    <textarea id="input_text" rows="4" cols="50"></textarea>
+    <br>
+    <button onclick="processText()">Submit</button>
+
+    <h2>Processed Text:</h2>
+    <p id="processed_text"></p>
+
+    <script>
+        function processText() {
+            var inputText = document.getElementById('input_text').value;
+            
+            // Make an asynchronous request to the server
+            fetch('/process_text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'input_text': inputText }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('processed_text').innerText = data.processed_text;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
